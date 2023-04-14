@@ -17,6 +17,7 @@ function [C,ev_vals,S_vals] = CDI(M,Type,Incl)
 % References:   Clark, R., Punzo, G. & Macdonald, M. Network Communities of
 %               Dynamical Influence. Sci Rep 9, 17590 (2019).
 
+    G = digraph(M);
     M_sparse=sparse(M);             % sparse matrix
     Nra= length(M);                 % length of Adj
     if Type == 'L'                  % if using Laplacian matrix
@@ -62,7 +63,8 @@ function [C,ev_vals,S_vals] = CDI(M,Type,Incl)
                     [~,mI]=sort(dot(x(:,leaders(viable)),repmat(x(:,fn),1,length(leaders(viable))))./(S(leaders(viable))'),'desc');
                     if leaders(viable(mI(1)))~=leaders(k)
                         for i = 1 : length(mI)
-                            [~,path,~] = graphshortestpath(M_sparse,fn,leaders(viable(mI(i))),'Method','BFS'); % MATLAB in-built function for shortest path using Breadth first search (BFS)
+                            [~,path,~] = shortestpath(G,fn,leaders(viable(mI(i))),'Method','auto');
+%                             [~,path,~] = graphshortestpath(M_sparse,fn,leaders(viable(mI(i))),'Method','BFS'); % MATLAB in-built function for shortest path using Breadth first search (BFS)
                             if ~isempty(path)
                                 mI=mI(i);       % selected leader with closest alignment AND a path from fn to leader
                                 break;

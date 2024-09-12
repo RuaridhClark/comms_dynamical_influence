@@ -50,7 +50,7 @@ function [S,x,I,in_list] = eig_embedding(M,Incl)
     num_eig = Incl(end); % Total number of eigenvalues/eigenvectors to compute
     
     opts = struct('largest', num_eig, 'smallest', num_exclude);
-    [V, D] = eigs(M', num_eig, 'lm', opts);
+    [V, D] = eigs(M', num_eig, 'lr', opts);
     
     V = V(:, num_exclude:end); % Select eigenvectors from num_exclude+1 to the end
     D = D(:, num_exclude:end); % Select eigenvectors from num_exclude+1 to the end
